@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
@@ -30,7 +29,12 @@ const calculateBudgetRange = (revenue: number, lowPercentage: number, highPercen
   }
 }
 
-const PriorityModal = ({ priority, description }) => {
+interface PriorityModalProps {
+  priority: string;
+  description: string;
+}
+
+const PriorityModal = ({ priority, description }: PriorityModalProps) => {
   const [isOpen, setIsOpen] = useState(false)
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -47,7 +51,12 @@ const PriorityModal = ({ priority, description }) => {
   )
 }
 
-const ComplexityModal = ({ complexity, description }) => {
+interface ComplexityModalProps {
+  complexity: string;
+  description: string;
+}
+
+const ComplexityModal = ({ complexity, description }: ComplexityModalProps) => {
   const [isOpen, setIsOpen] = useState(false)
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -77,7 +86,7 @@ export function RoiCalculator() {
   const marketingBudget5 = revenue * 0.05
   const marketingBudget10 = revenue * 0.10
 
-  const priorityDescriptions = {
+  const priorityDescriptions: Record<string, string> = {
     Low: "The website contributes minimally to revenue generation and serves a supportive role.",
     Medium: "The website significantly influences revenue generation but is not the primary source.",
     High: "The website is a key driver of revenue and essential for business profitability."
@@ -117,7 +126,7 @@ export function RoiCalculator() {
           <CardTitle className="text-3xl font-bold">B2B Website Budgeting Calculator</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-lg opacity-90">Estimate your website budget based on your company's annual revenue and project complexity.</p>
+          <p className="text-lg opacity-90">Estimate your website budget based on your company’s annual revenue and project complexity.</p>
         </CardContent>
       </Card>
       
@@ -191,9 +200,7 @@ export function RoiCalculator() {
                     <PriorityModal priority={row.priority} description={priorityDescriptions[row.priority]} />
                   </TableCell>
                   <TableCell>{row.simple}</TableCell>
-                  <TableCell 
-                    className={row.priority === "Medium" ? "bg-green-100" : ""}
-                  >
+                  <TableCell className={row.priority === "Medium" ? "bg-green-100" : ""}>
                     {row.average}
                   </TableCell>
                   <TableCell>{row.complex}</TableCell>
